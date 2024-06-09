@@ -14,7 +14,7 @@ class File
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Title = null;
+    private ?string $fileName = null;
 
     #[ORM\Column]
     private array $dataArray = [];
@@ -27,14 +27,14 @@ class File
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getFileName(): ?string
     {
-        return $this->Title;
+        return $this->fileName;
     }
 
-    public function setTitle(string $Title): static
+    public function setFileName(string $fileName): static
     {
-        $this->Title = $Title;
+        $this->fileName = $fileName;
 
         return $this;
     }

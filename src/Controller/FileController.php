@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\File;
+use App\Repository\FileRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,21 +13,32 @@ use Symfony\Component\Routing\Attribute\Route;
 class FileController extends AbstractController
 {
     #[Route('/fileImport', name: 'file_import')]
-    public function importFile(Request $request): JsonResponse
+    public function importFile(Request $request,FileRepository $fileRep): JsonResponse
     {
         if($request->getMethod() == "POST"){
             $data = $request->getContent();
-            
-            //stocké les info dans la bdd et retourné l'id
+            $data = json_decode($data, true);
+
+            //stocké les info dans la bdd et retourné l'id -- not useful
+            $file = new File();
+            $file->setFileName("generic Name");
+            $file->setDataArray($data['rowsData']);
+            $file->setLangueOb($data['selectedLang']);
+
+            //$fileRep->persist($file);
+
+            // $fileRep->flush();
 
             return $this->json([
                 //'id' => "",
                 'message' => 'Your file has been imported',
-                'data' => json_decode($data, true)
+                'status' =>'success',
+                'data' => $data
             ],Response::HTTP_OK);
         }else{
             return $this->json([
-                'error' => 'Please send the right data with the right http method',
+                'message' => 'Please send the right data with the right http method',
+                'status' =>'failed',
             ],Response::HTTP_METHOD_NOT_ALLOWED);
         }
 
