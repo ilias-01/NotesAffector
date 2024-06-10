@@ -25,8 +25,8 @@ class FileController extends AbstractController
             $file->setDataArray($data['rowsData']);
             $file->setLangueOb($data['selectedLang']);
 
-            $fileRep->persist($file);
-            $fileRep->flush();
+            //$fileRep->persist($file);
+            //$fileRep->flush();
 
             return $this->json([
                 //'id' => "",
